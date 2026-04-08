@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { Wallet } from 'lucide-react';
@@ -8,8 +8,12 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { register } = useContext(AuthContext);
+  const { register, user } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) navigate('/');
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +26,7 @@ const Register = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '24px', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: '100vh', padding: '24px', justifyContent: 'center' }}>
       <div className="glass-panel animate-fade" style={{ textAlign: 'center' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
           <div style={{ background: 'var(--primary-color)', padding: '16px', borderRadius: '20px' }}>

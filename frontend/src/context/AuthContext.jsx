@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = 'http://localhost:5000/api/auth/';
+  const API_URL = 'http://172.20.160.201:5000/api/auth/';
 
   useEffect(() => {
     const userInfo = localStorage.getItem('user');
@@ -49,13 +49,24 @@ export const AuthProvider = ({ children }) => {
     return response.data;
   };
 
+  const deleteAccount = async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+    await axios.delete(API_URL + 'profile', config);
+    localStorage.removeItem('user');
+    setUser(null);
+  };
+
   const logout = () => {
     localStorage.removeItem('user');
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, updateBudget }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, updateBudget, deleteAccount }}>
       {children}
     </AuthContext.Provider>
   );

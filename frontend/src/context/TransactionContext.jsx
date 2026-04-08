@@ -10,7 +10,7 @@ export const TransactionProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const { user } = useContext(AuthContext);
 
-  const API_URL = 'http://localhost:5000/api/transactions/';
+  const API_URL = 'http://172.20.160.201:5000/api/transactions/';
 
   useEffect(() => {
     if (user) {

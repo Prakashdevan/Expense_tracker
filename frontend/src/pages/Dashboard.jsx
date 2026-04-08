@@ -1,16 +1,18 @@
 import { useState, useContext, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import TransactionContext from '../context/TransactionContext';
 import ThemeContext from '../context/ThemeContext';
-import { LogOut, User, Moon, Sun, Plus } from 'lucide-react';
+import { LogOut, User, Moon, Sun, Plus, Trash2 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import TransactionForm from '../components/TransactionForm';
 import TransactionsList from '../components/TransactionsList';
 
 const Dashboard = () => {
-  const { user, logout, updateBudget } = useContext(AuthContext);
+  const { user, logout, updateBudget, deleteAccount } = useContext(AuthContext);
   const { transactions } = useContext(TransactionContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const navigate = useNavigate();
   
   const [showAddTransaction, setShowAddTransaction] = useState(false);
   const [isEditingBudget, setIsEditingBudget] = useState(false);
@@ -45,6 +47,22 @@ const Dashboard = () => {
     setIsEditingBudget(false);
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  const handleDeleteAccount = async () => {
+    if (window.confirm("Are you sure you want to completely delete your account? This action cannot be undone.")) {
+      try {
+        await deleteAccount();
+        navigate('/register');
+      } catch (err) {
+        alert("Failed to delete account");
+      }
+    }
+  };
+
   const budgetUsagePercent = user?.monthlyBudget ? (stats.expense / user.monthlyBudget) * 100 : 0;
   const isOverBudget = budgetUsagePercent > 80;
 
@@ -65,7 +83,10 @@ const Dashboard = () => {
           <button onClick={toggleTheme} style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer' }}>
             {theme === 'light' ? <Moon size={24} /> : <Sun size={24} />}
           </button>
-          <button onClick={logout} style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer' }}>
+          <button onClick={handleDeleteAccount} style={{ background: 'none', border: 'none', color: 'var(--expense-color)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <Trash2 size={24} />
+          </button>
+          <button onClick={handleLogout} style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer' }}>
             <LogOut size={24} />
           </button>
         </div>
