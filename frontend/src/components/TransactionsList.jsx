@@ -34,7 +34,7 @@ const TransactionsList = () => {
         new Date(t.date).toLocaleDateString(),
         t.type,
         t.category,
-        `$${t.amount.toFixed(2)}`,
+        `₹${t.amount.toFixed(2)}`,
         t.note || ''
       ];
       tableRows.push(row);
@@ -113,7 +113,7 @@ const TransactionsList = () => {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <p style={{ fontWeight: 700, fontSize: '16px', color: t.type === 'Income' ? 'var(--income-color)' : 'var(--expense-color)' }}>
-                  ${t.amount.toFixed(2)}
+                  ₹{t.amount.toFixed(2)}
                 </p>
                 <button onClick={() => deleteTransaction(t._id)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}>
                   <Trash2 size={18} />

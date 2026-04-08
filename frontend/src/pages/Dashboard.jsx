@@ -81,16 +81,16 @@ const Dashboard = () => {
         }}>
           <p style={{ fontSize: '14px', opacity: 0.9, marginBottom: '8px' }}>Total Balance</p>
           <h2 style={{ fontSize: '36px', fontWeight: 700, marginBottom: '24px' }}>
-            ${stats.balance.toFixed(2)}
+            ₹{stats.balance.toFixed(2)}
           </h2>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div>
               <p style={{ fontSize: '12px', opacity: 0.8 }}>Income</p>
-              <p style={{ fontWeight: 600, fontSize: '16px' }}>+${stats.income.toFixed(2)}</p>
+              <p style={{ fontWeight: 600, fontSize: '16px' }}>+₹{stats.income.toFixed(2)}</p>
             </div>
             <div style={{ textAlign: 'right' }}>
               <p style={{ fontSize: '12px', opacity: 0.8 }}>Expense</p>
-              <p style={{ fontWeight: 600, fontSize: '16px' }}>-${stats.expense.toFixed(2)}</p>
+              <p style={{ fontWeight: 600, fontSize: '16px' }}>-₹{stats.expense.toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -114,12 +114,12 @@ const Dashboard = () => {
                 onClick={() => setIsEditingBudget(true)} 
                 style={{ background: 'none', border: 'none', color: 'var(--primary-color)', fontSize: '14px', cursor: 'pointer', fontWeight: 500 }}
               >
-                Edit: ${user?.monthlyBudget || 0}
+                Edit: ₹{user?.monthlyBudget || 0}
               </button>
             )}
           </div>
           <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
-            ${stats.expense.toFixed(2)} spent out of ${user?.monthlyBudget || 0}
+            ₹{stats.expense.toFixed(2)} spent out of ₹{user?.monthlyBudget || 0}
           </p>
           <div className="progress-container">
             <div 
@@ -154,7 +154,7 @@ const Dashboard = () => {
                     ))}
                   </Pie>
                   <Tooltip 
-                    formatter={(value) => `$${value}`}
+                    formatter={(value) => `₹${value}`}
                     contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: 'var(--shadow)', backgroundColor: 'var(--surface-color)' }} 
                   />
                 </PieChart>
