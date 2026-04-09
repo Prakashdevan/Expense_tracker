@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = 'http://172.20.160.201:5000/api/auth/';
+  const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api') + '/auth/';
 
   useEffect(() => {
     const userInfo = localStorage.getItem('user');
@@ -18,21 +18,39 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const response = await axios.post(API_URL + 'login', { email, password });
-    if (response.data) {
-      localStorage.setItem('user', JSON.stringify(response.data));
-      setUser(response.data);
+    try {
+      const response = await axios.post(API_URL + 'login', { email, password });
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data));
+        setUser(response.data);
+      }
+      return response.data;
+    } catch (error) {
+      console.error('Login error details:', {
+        url: API_URL + 'login',
+        message: error.message,
+        response: error.response?.data
+      });
+      throw error;
     }
-    return response.data;
   };
 
   const register = async (name, email, password) => {
-    const response = await axios.post(API_URL + 'register', { name, email, password });
-    if (response.data) {
-      localStorage.setItem('user', JSON.stringify(response.data));
-      setUser(response.data);
+    try {
+      const response = await axios.post(API_URL + 'register', { name, email, password });
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data));
+        setUser(response.data);
+      }
+      return response.data;
+    } catch (error) {
+      console.error('Registration error details:', {
+        url: API_URL + 'register',
+        message: error.message,
+        response: error.response?.data
+      });
+      throw error;
     }
-    return response.data;
   };
 
   const updateBudget = async (budget) => {
